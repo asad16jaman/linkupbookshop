@@ -1,19 +1,31 @@
 <div class="container py-5">
+  @if($pageName != 'home')
+  <div class="row pb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-end">
+            <form action="">
+                <input type="text" placeholder="Search By Book Name" value="{{ request()->query('search') }}" class="form-control p-1" name="search" id="">
+            </form>
+        </div>
+      </div>
+    </div>
+    @endif
+
     <div class="row">
+      @if($pageName == 'home')
       <div class="section-title overflow-hidden mb-4">
         <h3 class="text-center">Books</h3>
       </div>
+      @endif
 
       @foreach ($books as $book)
       
-      
-      <div class="col-12 col-md-4 col-lg-3">
+      <div class="col-12 col-md-4 col-lg-3 mb-3">
         <div class="card position-relative p-4 border rounded-3">
           <div class="position-absolute">
             @if($book->discount)
                 <p class="bg-primary py-1 px-3 fs-6 text-white rounded-2">{{ $book->discount }}% off</p>
             @endif
-            
           </div>
           <img style="height:216px" src="{{ $book->picture ? asset('storage/').'/'.$book->picture : asset('assets/user/images/banner-image1.png') }}"
             class="img-fluid shadow-sm" alt="product item">
@@ -47,13 +59,23 @@
                 <use xlink:href="#cart"></use>
               </svg>
             </button>
-            <a href="#" class="btn btn-dark">
+            <form action="{{ route('storeInWishlist',['id'=> $book->id]) }}" method="post">
+              @csrf
+              <button type="submit" class="btn btn-dark">
+                 <span>
+                <svg class="wishlist">
+                  <use xlink:href="#heart"></use>
+                </svg>
+              </span>
+              </button>
+            </form>
+            <!-- <a href="" class="btn btn-dark">
               <span>
                 <svg class="wishlist">
                   <use xlink:href="#heart"></use>
                 </svg>
               </span>
-            </a>
+            </a> -->
           </div>
         </div>
       </div>
@@ -61,9 +83,13 @@
     @endforeach
 
     </div>
-    <div class="row">
+    @if($pageName == 'home')
+      <div class="row">
         <div class="col d-flex justify-content-center">
-            <a href="" class="btn btn-primary mt-3 p-2">See All Books</a>
+            <a href="{{ route('allbooks') }}" class="btn btn-primary mt-3 p-2">See All Books</a>
         </div>
     </div>
+
+    @endif
+    
   </div>

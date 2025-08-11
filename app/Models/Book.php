@@ -30,6 +30,8 @@ class Book extends Model
         return $this->bestsell()->exists();
     }
 
+    
+
 
     protected function lognDescription(): Attribute
     {

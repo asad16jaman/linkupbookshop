@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Company;
+use App\Models\Wishlist;
+use Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,6 +33,18 @@ class ViewServiceProvider extends ServiceProvider
                     $view->with('company',false);
 
                 }
+
+                //wishlist
+                if(Auth::check()){
+                    $count = Wishlist::where('user_id',Auth::user()->id)->count();
+                    $wishProduct = Wishlist::with('book')->where('user_id',Auth::user()->id)->get();
+                    $wish = [
+                        'count' => $count,
+                        'products'=> $wishProduct
+                    ];
+                    $view->with('wish',$wish);
+                }
+                
                 
             });
     }

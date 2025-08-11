@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\WishListController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\FaqController;
@@ -14,21 +15,23 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\DashboardController;
-
-
 use App\Http\Controllers\Admin\ManagemenController;
 use App\Http\Controllers\Admin\PhotoGalleryController;
 
 
 
 Route::get("/",[HomeController::class,"index"])->name("home");
+Route::get("/books",[HomeController::class,"allBook"])->name("allbooks");
+Route::get("/best-sell-book",[HomeController::class,"bestsell"])->name("bestSell");
+Route::get("/about",[HomeController::class,"about"])->name("about");
 
-
-
-
+//Wishlist Controller
+Route::post("/wish/{id}",[WishListController::class,"storeWishList"])->name("storeInWishlist");
+Route::post("/wish/{id}/delete",[WishListController::class,"updateWishList"])->name("updateWishList");
 
 
 Route::post("/user/login",[AuthenticationController::class,"authenticate"])->name("user.login");
+Route::post("/user/logout",[AuthenticationController::class,"logout"])->name("user.logout");
 
 Route::prefix('admin')->group(function(){
 

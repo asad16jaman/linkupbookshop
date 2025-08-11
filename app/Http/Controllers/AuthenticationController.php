@@ -49,24 +49,31 @@ class AuthenticationController extends Controller
 
         $credentials = $request->only('username','password');
 
-        // return response()->json([$credentials]);
-        
         if (Auth::attempt($credentials)) {
-
             $request->session()->regenerate();
            return response()->json([
             'status'=> true
            ]);
         }
         else {
-
             return response()->json([
                 'status' => false,
             ]);
-
         }
-
     }
+
+    public function logout(Request $request){
+        Auth::logout();
+ 
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect()->route('home');
+    }
+
+
+
 
 
 
