@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\FaqController;
@@ -22,6 +23,13 @@ use App\Http\Controllers\Admin\PhotoGalleryController;
 
 Route::get("/",[HomeController::class,"index"])->name("home");
 
+
+
+
+
+
+Route::post("/user/login",[AuthenticationController::class,"authenticate"])->name("user.login");
+
 Route::prefix('admin')->group(function(){
 
     Route::get('/login',[DashboardController::class,'login'])->name('admin.login');
@@ -32,8 +40,6 @@ Route::prefix('admin')->group(function(){
     Route::get('/register',[DashboardController::class,'register'])->name('admin.register');
     Route::post('/register',[DashboardController::class,'store'])->name('admin.register');
 });
-
-Route::post('/upload-description-image', [ProductController::class, 'uploadDescriptionImage'])->name('upload.description.image');
 
 Route::group(['prefix'=> '/admin','middleware'=>'checkAdminAuth'], function () {
     Route::get('/',[DashboardController::class,'index'])->name('admin');
