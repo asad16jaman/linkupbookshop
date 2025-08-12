@@ -310,40 +310,37 @@
                 aria-expanded="false">
                 <svg class="cart">
                 <use xlink:href="#cart"></use>
-                </svg><span class="fs-6 fw-light">(02)</span>
+                </svg><span class="fs-6 fw-light" id="totalItem">({{ $cartDetail['totalItems'] }})</span>
               </a>
               <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-primary">Your cart</span>
-                <span class="badge bg-primary rounded-pill">2</span>
+                <span class="badge bg-primary rounded-pill" id="totalItemCart">{{ $cartDetail['totalItems'] }}</span>
                 </h4>
-                <ul class="list-group mb-3">
+                <ul class="list-group mb-3" id="navCart">
+                @foreach ($cartDetail['content'] as $book)
+                
                 <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
                   <div>
-                  <h5>
-                    <a href="index.html">Secrets of the Alchemist</a>
+                  <h5 style="font-size: 16px;margin-bottom: 0px;">
+                    <a href="">{{ $book['name'].'('.$book['qty'].')' }}</a>
                   </h5>
-                  <small>High quality in good price.</small>
+                  <small>ldsksd</small>
                   </div>
-                  <span class="text-primary">$870</span>
+                  <span class="text-primary">${{ $book['price'] }}</span>
                 </li>
-                <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                  <div>
-                  <h5>
-                    <a href="index.html">Quest for the Lost City</a>
-                  </h5>
-                  <small>Professional Quest for the Lost City.</small>
-                  </div>
-                  <span class="text-primary">$600</span>
-                </li>
-                <li class="list-group-item bg-transparent d-flex justify-content-between">
-                  <span class="text-capitalize"><b>Total (USD)</b></span>
-                  <strong>$1470</strong>
-                </li>
+
+                @endforeach
+                
                 </ul>
+                <hr class="mb-0">
+                <div class="d-flex flex-wrap justify-content-between mb-2">
+                  <span class="text-capitalize"><b>Total (USD)</b></span>
+                  <strong class="cartTotal" id="totalPrice">${{ $cartDetail['totalPrice'] }}</strong>
+                </div>
                 <div class="d-flex flex-wrap justify-content-center">
-                <a href="index.html" class="w-100 btn btn-dark mb-1" type="submit">View Cart</a>
-                <a href="index.html" class="w-100 btn btn-primary" type="submit">Go to checkout</a>
+                <a href="" class="w-100 btn btn-dark mb-1" type="submit">View Cart</a>
+               
                 </div>
               </div>
               </li>

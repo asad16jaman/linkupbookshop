@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishListController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,10 @@ Route::post('/profile/password-change',[ProfileController::class,'update_passwor
 
 Route::post("/user/login",[AuthenticationController::class,"authenticate"])->name("user.login");
 Route::post("/user/logout",[AuthenticationController::class,"logout"])->name("user.logout");
+
+
+//card handling url hare
+Route::get('/addtocard/{id}',[CartController::class,'addToCart'])->name('user.addCart');
 
 Route::prefix('admin')->group(function(){
 

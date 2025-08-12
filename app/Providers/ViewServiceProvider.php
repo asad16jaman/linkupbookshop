@@ -44,8 +44,53 @@ class ViewServiceProvider extends ServiceProvider
                     ];
                     $view->with('wish',$wish);
                 }
-                
+
+                //handleing cart
+                $cart = [
+                    'content' => $this->cartJson(),
+                    'totalItems' => $this->totalItems(),
+                    'totalPrice' => $this->totalPrice()
+                ];
+
+                 $view->with('cartDetail',$cart);
                 
             });
     }
+
+    public function cartJson()
+    {
+        return session()->get('cart', []);
+    }
+
+    public function totalPrice()
+    {
+        $cart = session()->get('cart', []);
+        $total = 0;
+
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['qty'];
+        }
+
+        return $total;
+    }
+
+     public function totalItems()
+    {
+        $cart = session()->get('cart', []);
+        $count = 0;
+
+        foreach ($cart as $item) {
+            $count += $item['qty'];
+        }
+
+        return $count;
+    }
+
+
+
+
+
+
+
+
 }

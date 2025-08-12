@@ -53,7 +53,7 @@
           </div>
           <span class="price text-primary fw-bold mb-2 fs-5"></span>
           <div class="card-concern position-absolute start-0 end-0 d-flex gap-2">
-            <button type="button" href="#" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
+            <button type="button" onclick="addToCard({{ $book->id }})" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
               data-bs-title="Tooltip on top">
               <svg class="cart">
                 <use xlink:href="#cart"></use>
@@ -93,3 +93,64 @@
     @endif
     
   </div>
+
+  @push('script')
+  <script>
+
+    function createCartLi(name,qty,price){
+      return `<li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+                  <div>
+                  <h5 style="font-size: 16px;margin-bottom: 0px;">
+                    <a href="">${name}(${qty})</a>
+                  </h5>
+                  <small>ldsksd</small>
+                  </div>
+                  <span class="text-primary">${price}</span>
+                </li>`
+    }
+
+
+
+    function addToCard(id){
+     
+      let url = "{{ route('user.addCart', ['id' => ':id']) }}";
+      url = url.replace(':id', id);
+
+      axios.get(url)
+      .then(res=>{
+        let response = res.data
+        if(response.status){
+            showToast("Successfully Added!", 'success');
+            let cartbooks = Object.values(response.content);
+            let allCart = cartbooks.map(ele=>{
+              return createCartLi(ele.name,ele.qty,ele.price)
+            })
+            document.getElementById('navCart').innerHTML = allCart;
+            document.getElementById('totalPrice').innerHTML = response.totalItem
+            document.getElementById('totalItem').innerHTML = response.totalItem
+            document.getElementById('totalItemCart').innerHTML = response.totalPrice
+
+          }
+      })
+
+      // var elErr = document.getElementById('toastError');
+      //   if (elErr) {
+      //       var toastErr = new bootstrap.Toast(elErr);
+      //       toastErr.show();
+      //   }
+
+        // var el = document.getElementById('toastSuccess');
+        // if (el) {
+        //     var toast = new bootstrap.Toast(el);
+        //     toast.show();
+        // }
+      
+      
+      
+
+
+    }
+
+  </script>
+
+  @endpush

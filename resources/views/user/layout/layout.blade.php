@@ -24,19 +24,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
     rel="stylesheet">
 
-    @yield('style')
-    
-   
+  @yield('style')
+
+
 </head>
 
 <body>
+  <div id="toastContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 1080;"></div>
 
- <!-- loader start  -->
+  <!-- loader start  -->
   @include('user.layout.loader')
   <!-- loader start  -->
 
 
-    @yield('content')
+  @yield('content')
 
   @include('user.layout.footer')
   @include('user.layout.notify')
@@ -49,24 +50,51 @@
   <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
 
   <script>
-document.addEventListener('DOMContentLoaded', function () {
-    @if(session('success'))
-        var el = document.getElementById('toastSuccess');
-        if (el) {
-            var toast = new bootstrap.Toast(el);
-            toast.show();
-        }
+    document.addEventListener('DOMContentLoaded', function () {
+      @if(session('success'))
+      var el = document.getElementById('toastSuccess');
+      if (el) {
+      var toast = new bootstrap.Toast(el);
+      toast.show();
+      }
     @endif
 
-    @if(session('error'))
+        @if(session('error'))
         var elErr = document.getElementById('toastError');
         if (elErr) {
-            var toastErr = new bootstrap.Toast(elErr);
-            toastErr.show();
+        var toastErr = new bootstrap.Toast(elErr);
+        toastErr.show();
         }
-    @endif
+      @endif
 });
-</script>
+
+    function showToast(message, type = 'success') {
+      // Bootstrap 5 Toast type classes
+      let bgClass = type === 'success' ? 'text-bg-success' : 'text-bg-danger';
+
+      // Create toast element
+      let toastHTML = `
+        <div class="toast mt-1 align-items-center ${bgClass} border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="1000">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `;
+
+      // Append toast to container
+      let container = document.getElementById('toastContainer');
+      container.insertAdjacentHTML('beforeend', toastHTML);
+
+      // Initialize & show toast
+      let toastEl = container.lastElementChild;
+      let toast = new bootstrap.Toast(toastEl);
+      toast.show();
+
+      // Remove toast after it's hidden (cleanup DOM)
+      toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
+    }
+  </script>
 
   @stack('script')
 </body>

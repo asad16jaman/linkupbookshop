@@ -11,11 +11,11 @@
   <!-- navbar end hare  -->
 
   <!-- slider section start hare  -->
-  @include('user.home.slider', ['sliders' => $sliders])
+  <!-- include('user.home.slider', ['sliders' => $sliders]) -->
   <!-- slider section end hare  -->
 
 
-  <section id="company-services" class="padding-large pb-0">
+  <!-- <section id="company-services" class="padding-large pb-0">
     <div class="container pt-5">
       <div class="row">
         <div class="col-lg-3 col-md-6 pb-3 pb-lg-0">
@@ -72,19 +72,19 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- category section start hare    -->
-  @include('user.home.category', ['categories' => $categories])
+  <!-- include('user.home.category', ['categories' => $categories]) -->
   <!-- category section end hare    -->
 
 
   <!-- bestselling section start -->
-  @include('user.home.bestselling', ['bestsells' => $bestsells])
+  <!-- include('user.home.bestselling', ['bestsells' => $bestsells]) -->
   <!-- bestselling section end -->
 
 
-   @include('user.home.offer')
+   <!-- include('user.home.offer') -->
 
   <!-- book start hare -->
   @include('user.home.books',['books' => $books,'pageName' => 'home' ])
