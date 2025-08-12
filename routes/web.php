@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishListController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -28,6 +29,16 @@ Route::get("/about",[HomeController::class,"about"])->name("about");
 //Wishlist Controller
 Route::post("/wish/{id}",[WishListController::class,"storeWishList"])->name("storeInWishlist");
 Route::post("/wish/{id}/delete",[WishListController::class,"updateWishList"])->name("updateWishList");
+
+
+
+
+//Profile url
+Route::get('/profile',[ProfileController::class,'index'])->name('user.profile');
+Route::post('/profile',[ProfileController::class,'storeProfile'])->name('user.profile');
+Route::get('profile/your-wish',[ProfileController::class,'wishlist'])->name('user.wish');
+Route::get('/profile/password-change',[ProfileController::class,'changePassword'])->name('user.changePassword');
+Route::post('/profile/password-change',[ProfileController::class,'update_password'])->name('user.changePassword');
 
 
 Route::post("/user/login",[AuthenticationController::class,"authenticate"])->name("user.login");

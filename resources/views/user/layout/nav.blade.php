@@ -226,13 +226,12 @@
         @endif
 
               @if(Auth::check())
-
               <li class="nav-item dropdown">
               <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                aria-expanded="false">{{ Auth::user()->username }}</a>
+                aria-expanded="false">{{ Auth::user()->fullname ?? Auth::user()->username }}</a>
               <ul class="dropdown-menu animate slide border">
                  <li>
-                  <a href="" class="dropdown-item fw-light">Profile</a>
+                  <a href="{{ route('user.profile') }}" class="dropdown-item fw-light">Profile</a>
                 </li>
                  
                 <li>
@@ -299,8 +298,8 @@
                 </ul>
                 @if($wish['count'] != '0')
                 <div class="d-flex flex-wrap justify-content-center">
-                <a href="#" class="w-100 btn btn-dark mb-1" type="submit">Add all to cart</a>
-                <a href="index.html" class="w-100 btn btn-primary" type="submit">View cart</a>
+                <a href="{{ route('user.wish') }}" class="w-100 btn btn-dark mb-1" type="submit">View WishList</a>
+                <!-- <a href="" class="w-100 btn btn-primary" type="submit">View cart</a> -->
                 </div>
                 @endif
               </div>

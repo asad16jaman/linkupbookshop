@@ -37,7 +37,7 @@ class ViewServiceProvider extends ServiceProvider
                 //wishlist
                 if(Auth::check()){
                     $count = Wishlist::where('user_id',Auth::user()->id)->count();
-                    $wishProduct = Wishlist::with('book')->where('user_id',Auth::user()->id)->get();
+                    $wishProduct = Wishlist::with('book')->where('user_id',Auth::user()->id)->latest()->take(3)->get();
                     $wish = [
                         'count' => $count,
                         'products'=> $wishProduct

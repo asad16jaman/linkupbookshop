@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  @yield('csslink')
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/user/style.css') }}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +38,6 @@
 
     @yield('content')
 
-
   @include('user.layout.footer')
   @include('user.layout.notify')
   <script src="{{ asset('assets/user/js/jquery-1.11.0.min.js') }}"></script>
@@ -49,13 +49,24 @@
   <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        @if(session('success') || session('error'))
-            var messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
-            messageModal.show();
-        @endif
-    });
-  </script>
+document.addEventListener('DOMContentLoaded', function () {
+    @if(session('success'))
+        var el = document.getElementById('toastSuccess');
+        if (el) {
+            var toast = new bootstrap.Toast(el);
+            toast.show();
+        }
+    @endif
+
+    @if(session('error'))
+        var elErr = document.getElementById('toastError');
+        if (elErr) {
+            var toastErr = new bootstrap.Toast(elErr);
+            toastErr.show();
+        }
+    @endif
+});
+</script>
 
   @stack('script')
 </body>
