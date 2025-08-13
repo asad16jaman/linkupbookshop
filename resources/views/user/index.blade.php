@@ -11,7 +11,7 @@
   <!-- navbar end hare  -->
 
   <!-- slider section start hare  -->
-  <!-- include('user.home.slider', ['sliders' => $sliders]) -->
+  @include('user.home.slider', ['sliders' => $sliders])
   <!-- slider section end hare  -->
 
 
@@ -75,12 +75,12 @@
   </section> -->
 
   <!-- category section start hare    -->
-  <!-- include('user.home.category', ['categories' => $categories]) -->
+  @include('user.home.category', ['categories' => $categories])
   <!-- category section end hare    -->
 
 
   <!-- bestselling section start -->
-  <!-- include('user.home.bestselling', ['bestsells' => $bestsells]) -->
+  @include('user.home.bestselling', ['bestsells' => $bestsells])
   <!-- bestselling section end -->
 
 

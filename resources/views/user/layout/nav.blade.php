@@ -84,7 +84,7 @@
               <a class="nav-link me-4" href="{{ route('about') }}">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link me-4" href="index.html">Shop</a>
+              <a class="nav-link me-4" href="{{ route('allbooks') }}">Books</a>
             </li>
             <li class="nav-item">
               <a class="nav-link me-4" href="index.html">Blogs</a>
@@ -114,13 +114,11 @@
                 <li>
                   <a href="index.html" class="dropdown-item fw-light">Single Post</a>
                 </li>
-                <li>
-                  <a href="index.html" class="dropdown-item fw-light">Contact</a>
-                </li>
+                
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link me-4" href="index.html">Contact</a>
+              <a class="nav-link me-4" href="{{ route('user.contact') }}">Contact</a>
             </li>
           </ul>
           <div class="user-items d-flex">
@@ -133,7 +131,7 @@
                 </a>
               </li>
 
-              @if(!Auth::user())
+        @if(!Auth::user())
           <li class="pe-3">
           <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <svg class="user">
@@ -225,128 +223,124 @@
           </li>
         @endif
 
-              @if(Auth::check())
-              <li class="nav-item dropdown">
-              <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                aria-expanded="false">{{ Auth::user()->fullname ?? Auth::user()->username }}</a>
-              <ul class="dropdown-menu animate slide border">
-                 <li>
-                  <a href="{{ route('user.profile') }}" class="dropdown-item fw-light">Profile</a>
-                </li>
-                 
-                <li>
-                  <form action="{{ route('user.logout') }}" method="post">
-                    @csrf
-                    <input type="submit" value="Logout" class="dropdown-item fw-light">
-                  </form>
-                  <!-- <a href="index.html" class="">Logout</a> -->
-                </li>
-                
-              </ul>
+        @if(Auth::check())
+            <li class="nav-item dropdown">
+            <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+              aria-expanded="false">{{ Auth::user()->fullname ?? Auth::user()->username }}</a>
+            <ul class="dropdown-menu animate slide border">
+              <li>
+              <a href="{{ route('user.profile') }}" class="dropdown-item fw-light">Profile</a>
+              </li>
+
+              <li>
+              <form action="{{ route('user.logout') }}" method="post">
+                @csrf
+                <input type="submit" value="Logout" class="dropdown-item fw-light">
+              </form>
+              <!-- <a href="index.html" class="">Logout</a> -->
+              </li>
+
+            </ul>
             </li>
 
 
-              <li class="wishlist-dropdown dropdown pe-3">
-              <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-                <svg class="wishlist">
-                <use xlink:href="#heart"></use>
-                </svg>
-              </a>
-              <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-primary">Your wishlist</span>
-                <span class="badge bg-primary rounded-pill">{{ $wish['count'] }}</span>
-                </h4>
-                <ul class="list-group mb-3">
-                  @forelse($wish['products'] as $wish)
-                    <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                    <div>
-                    <h5 style="font-size:16px">
-                      <a href="index.html">{{ $wish->book->name }}</a>
-                    </h5>
-                    <small>{{ $wish->book->author }}<small>
-                      <div class="d-flex justify-content-between">
-                        <form action="{{ route('updateWishList',['id'=>$wish->id]) }}" method="post">
-                          @csrf
-                          <input type="submit" value="Remove" class="fw-medium text-capitalize mt-2" style="bckground:red">
-                        </form>
-                        
-                        <a href="#" class="d-block fw-medium text-capitalize mt-2">Add to cart</a>
-                      </div>
-                      
-                    </div>
-                    <span class="text-primary">${{ $wish->book->price }}</span>
-                  </li>
+            <li class="wishlist-dropdown dropdown pe-3">
+            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+              <svg class="wishlist">
+              <use xlink:href="#heart"></use>
+              </svg>
+            </a>
+            <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-primary">Your wishlist</span>
+              <span class="badge bg-primary rounded-pill">{{ $wish['count'] }}</span>
+              </h4>
+              <ul class="list-group mb-3">
+              @forelse($wish['products'] as $wish)
+          <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+            <div>
+            <h5 style="font-size:16px">
+            <a href="index.html">{{ $wish->book->name }}</a>
+            </h5>
+            <small>{{ $wish->book->author }}<small>
+            <div class="d-flex justify-content-between">
+              <form action="{{ route('updateWishList', ['id' => $wish->id]) }}" method="post">
+              @csrf
+              <input type="submit" value="Remove" class="fw-medium text-capitalize mt-2"
+              style="bckground:red">
+              </form>
 
-                  @empty
+              <a href="#" class="d-block fw-medium text-capitalize mt-2">Add to cart</a>
+            </div>
 
-                    <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                    <div>
-                    <h5 style="font-size:16px">
-                      <a type="p">No Product Found</a>
-                    </h5>
-                    
-                  </li>
+            </div>
+            <span class="text-primary">${{ $wish->book->price }}</span>
+          </li>
 
-                  @endforelse
-                
-                
-                <!-- <li class="list-group-item bg-transparent d-flex justify-content-between">
-            <span class="text-capitalize"><b>Total (USD)</b></span>
-            <strong>$1470</strong>
-            </li> -->
-                </ul>
-                @if($wish['count'] != '0')
-                <div class="d-flex flex-wrap justify-content-center">
-                <a href="{{ route('user.wish') }}" class="w-100 btn btn-dark mb-1" type="submit">View WishList</a>
-                <!-- <a href="" class="w-100 btn btn-primary" type="submit">View cart</a> -->
-                </div>
-                @endif
-              </div>
-              </li>
+          @empty
 
+          <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+            <div>
+            <h5 style="font-size:16px">
+            <a type="p">No Product Found</a>
+            </h5>
+
+          </li>
+
+          @endforelse
+
+
+              <!-- <li class="list-group-item bg-transparent d-flex justify-content-between">
+          <span class="text-capitalize"><b>Total (USD)</b></span>
+          <strong>$1470</strong>
+          </li> -->
+              </ul>
+              @if($wish['count'] != '0')
+          <div class="d-flex flex-wrap justify-content-center">
+          <a href="{{ route('user.wish') }}" class="w-100 btn btn-dark mb-1" type="submit">View WishList</a>
+          <!-- <a href="" class="w-100 btn btn-primary" type="submit">View cart</a> -->
+          </div>
+          @endif
+            </div>
+            </li>
+        @endif
               <li class="cart-dropdown dropdown">
-              <a href="index.html" class="dropdown-toggle" data-bs-toggle="dropdown" role="button"
-                aria-expanded="false">
-                <svg class="cart">
-                <use xlink:href="#cart"></use>
-                </svg><span class="fs-6 fw-light" id="totalItem">({{ $cartDetail['totalItems'] }})</span>
-              </a>
-              <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-primary">Your cart</span>
-                <span class="badge bg-primary rounded-pill" id="totalItemCart">{{ $cartDetail['totalItems'] }}</span>
-                </h4>
-                <ul class="list-group mb-3" id="navCart">
-                @foreach ($cartDetail['content'] as $book)
-                
-                <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                  <div>
-                  <h5 style="font-size: 16px;margin-bottom: 0px;">
-                    <a href="">{{ $book['name'].'('.$book['qty'].')' }}</a>
-                  </h5>
-                  <small>ldsksd</small>
-                  </div>
-                  <span class="text-primary">${{ $book['price'] }}</span>
-                </li>
+                <a href="index.html" class="dropdown-toggle" data-bs-toggle="dropdown" role="button"
+                  aria-expanded="false">
+                  <svg class="cart">
+                    <use xlink:href="#cart"></use>
+                  </svg><span class="fs-6 fw-light" id="totalItem">({{ $cartDetail['totalItems'] }})</span>
+                </a>
+                <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
+                  <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Your cart</span>
+                    <span class="badge bg-primary rounded-pill"
+                      id="totalItemCart">{{ $cartDetail['totalItems'] }}</span>
+                  </h4>
+                  <ul class="list-group mb-3" id="navCart">
+                    @foreach ($cartDetail['content'] as $book)
 
-                @endforeach
-                
-                </ul>
-                <hr class="mb-0">
-                <div class="d-flex flex-wrap justify-content-between mb-2">
-                  <span class="text-capitalize"><b>Total (USD)</b></span>
-                  <strong class="cartTotal" id="totalPrice">${{ $cartDetail['totalPrice'] }}</strong>
-                </div>
-                <div class="d-flex flex-wrap justify-content-center">
-                <a href="" class="w-100 btn btn-dark mb-1" type="submit">View Cart</a>
-               
-                </div>
+            <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+              <div>
+              <h5 style="font-size: 16px;margin-bottom: 0px;">
+                <a href="">{{ $book['name'] . '(' . $book['qty'] . ')' }}</a>
+              </h5>
+              <small>ldsksd</small>
               </div>
+              <span class="text-primary">${{ $book['price'] }}</span>
+            </li>
+          @endforeach
+                  </ul>
+                  <hr class="mb-0">
+                  <div class="d-flex flex-wrap justify-content-between mb-2">
+                    <span class="text-capitalize"><b>Total (USD)</b></span>
+                    <strong class="cartTotal" id="totalPrice">${{ $cartDetail['totalPrice'] }}</strong>
+                  </div>
+                  <div class="d-flex flex-wrap justify-content-center">
+                    <a href="{{ route('user.mycart') }}" class="w-100 btn btn-dark mb-1" type="submit">View Cart</a>
+                  </div>
+                </div>
               </li>
-            @endif
-
-
             </ul>
           </div>
         </div>
@@ -366,38 +360,42 @@
     let formData = new FormData(form);
     let posturl = "{{ route('user.register') }}";
 
-    axios.post(posturl, formData)
+    axios.post(posturl, formData,{
+      headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      }
+    })
       .then(function (response) {
 
       let res = response.data;
       if (!res.status) {
-        if (res.error.username) {
-        document.getElementById('username').classList.add('is-invalid');
-        document.getElementById('nameError').innerHTML = res.error.username[0]
-        console.log(res.error.username)
-        } else {
-        document.getElementById('username').classList.remove('is-invalid');
-        document.getElementById('nameError').innerHTML = '';
-        }
-        if (res.error.password) {
-        document.getElementById('password').classList.add('is-invalid');
-        document.getElementById('passwordError').innerHTML = res.error.password[0]
-        } else {
-        document.getElementById('password').classList.remove('is-invalid');
-        document.getElementById('passwordError').innerHTML = '';
-        }
+      if (res.error.username) {
+      document.getElementById('username').classList.add('is-invalid');
+      document.getElementById('nameError').innerHTML = res.error.username[0]
+      console.log(res.error.username)
+      } else {
+      document.getElementById('username').classList.remove('is-invalid');
+      document.getElementById('nameError').innerHTML = '';
+      }
+      if (res.error.password) {
+      document.getElementById('password').classList.add('is-invalid');
+      document.getElementById('passwordError').innerHTML = res.error.password[0]
+      } else {
+      document.getElementById('password').classList.remove('is-invalid');
+      document.getElementById('passwordError').innerHTML = '';
+      }
 
       } else {
-        window.location.href = "{{ route('home') }}"
+      window.location.href = "{{ route('home') }}"
       }
 
       })
       .catch(function (error) {
       if (error.response) {
-        console.error('Error:', error.response.data);
-        alert('Error: ' + (error.response.data.message || 'Something went wrong!'));
+      console.error('Error:', error.response.data);
+      alert('Error: ' + (error.response.data.message || 'Something went wrong!'));
       } else {
-        console.error('Error:', error.message);
+      console.error('Error:', error.message);
       }
       });
     })
@@ -417,17 +415,17 @@
       .then(function (response) {
       let res = response.data;
       if (!res.status) {
-        document.getElementById('loginError').innerHTML = "Invalid Cradential!";
+      document.getElementById('loginError').innerHTML = "Invalid Cradential!";
       } else {
-        window.location.href = "{{ route('home') }}"
+      window.location.href = "{{ route('home') }}"
       }
       })
       .catch(function (error) {
       if (error.response) {
-        console.error('Error:', error.response.data);
-        alert('Error: ' + (error.response.data.message || 'Something went wrong!'));
+      console.error('Error:', error.response.data);
+      alert('Error: ' + (error.response.data.message || 'Something went wrong!'));
       } else {
-        console.error('Error:', error.message);
+      console.error('Error:', error.message);
       }
       });
 

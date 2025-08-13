@@ -17,13 +17,20 @@ class CartController extends Controller
             $cart[$id]['qty'] += $request->qty ?? 1;
         } else {
             
-            $cart[$id] = [
+            $newItem = [
+            $id => [
                 "name" => $product->name,
                 "author" => $product->author,
+                "uuid" => $product->uuid,
+                'discount' => $product->discount,
                 "qty" => $request->qty ?? 1,
                 "price" => $product->price,
-                "image" => $product->picture,
-            ];
+                'image' => asset('storage/' . $product->picture)
+            ]
+        ];
+
+        // Prepend new item before existing cart
+        $cart = $newItem + $cart;
         }
         session()->put('cart', $cart);
         return response()->json([
@@ -36,8 +43,9 @@ class CartController extends Controller
     }
     public function cart()
     {
-        $cart = session()->get('cart', []);
-        return view('cart.index', compact('cart'));
+        $carts = session()->get('cart', []);
+
+        return view('user.cart', compact('carts'));
     }
 
     public function cartJson()
@@ -45,24 +53,48 @@ class CartController extends Controller
         return session()->get('cart', []);
     }
    
-    public function updateCart(Request $request, $id)
+    public function increment($id)
     {
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $qty = $request->qty;
+                $cart[$id]['qty'] += 1;
+            session()->put('cart', $cart);
+        }
 
-            if ($qty <= 0) {
+        return response()->json([
+            "status" => true,
+            "message" => "Successfully Increased!",
+            'content' => $this->cartJson(),
+            'totalPrice' => $this->totalPrice()
+        ]);
+    }
+
+    public function decrement($id)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            $qty = $cart[$id]['qty'];
+
+            if ($qty <= 1) {
                 unset($cart[$id]);
             } else {
-                $cart[$id]['qty'] = $qty;
+                $cart[$id]['qty'] -= 1;
             }
 
             session()->put('cart', $cart);
         }
 
-        return redirect()->back()->with('success', 'Cart updated!');
+        return response()->json([
+            "status" => true,
+            "message" => "Successfully Decreased Quentity!",
+            'content' => $this->cartJson(),
+            'totalPrice' => $this->totalPrice()
+        ]);
     }
+
+
     public function removeCart($id)
     {
         $cart = session()->get('cart', []);
@@ -72,7 +104,12 @@ class CartController extends Controller
             session()->put('cart', $cart);
         }
 
-        return redirect()->back()->with('success', 'Item removed from cart!');
+        return response()->json([
+            "status" => true,
+            "message" => "Successfully Removed!",
+            'content' => $this->cartJson(),
+            'totalPrice' => $this->totalPrice()
+        ]);
     }
 
     public function totalPrice()

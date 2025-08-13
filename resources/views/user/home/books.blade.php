@@ -29,7 +29,7 @@
           </div>
           <img style="height:216px" src="{{ $book->picture ? asset('storage/').'/'.$book->picture : asset('assets/user/images/banner-image1.png') }}"
             class="img-fluid shadow-sm" alt="product item">
-          <h6 class="mt-4 mb-0 fw-bold"><a href="">{{ optional($book)->name }}</a></h6>
+          <h6 class="mt-4 mb-0 fw-bold"><a href="{{ route('singlebook',['id'=>$book->uuid]) }}">{{ optional($book)->name }}</a></h6>
           <div class="review-content d-flex">
             <p class="my-2 me-2 fs-6 text-black-50">{{ optional($book)->author }}</p>
 
@@ -109,10 +109,7 @@
                 </li>`
     }
 
-
-
     function addToCard(id){
-     
       let url = "{{ route('user.addCart', ['id' => ':id']) }}";
       url = url.replace(':id', id);
 
@@ -132,23 +129,6 @@
 
           }
       })
-
-      // var elErr = document.getElementById('toastError');
-      //   if (elErr) {
-      //       var toastErr = new bootstrap.Toast(elErr);
-      //       toastErr.show();
-      //   }
-
-        // var el = document.getElementById('toastSuccess');
-        // if (el) {
-        //     var toast = new bootstrap.Toast(el);
-        //     toast.show();
-        // }
-      
-      
-      
-
-
     }
 
   </script>

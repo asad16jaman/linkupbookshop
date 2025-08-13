@@ -53,7 +53,7 @@
         </div>
         <span class="price text-primary fw-bold mb-2 fs-5">${{ $bestsell->price }}</span>
         <div class="card-concern position-absolute start-0 end-0 d-flex gap-2">
-          <button type="button" href="#" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
+          <button type="button" onclick="addToCard({{ $bestsell->id }})" href="#" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
           data-bs-title="Tooltip on top">
           <svg class="cart">
             <use xlink:href="#cart"></use>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishListController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\ContactController as UserContact;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FeedbackController;
@@ -31,7 +33,10 @@ Route::get("/about",[HomeController::class,"about"])->name("about");
 Route::post("/wish/{id}",[WishListController::class,"storeWishList"])->name("storeInWishlist");
 Route::post("/wish/{id}/delete",[WishListController::class,"updateWishList"])->name("updateWishList");
 
+//book
+Route::get('/book/{id}/detail',[BookController::class,'index'])->name('singlebook');
 
+Route::get('/contact',[UserContact::class,'index'])->name('user.contact');
 
 
 //Profile url
@@ -41,13 +46,17 @@ Route::get('profile/your-wish',[ProfileController::class,'wishlist'])->name('use
 Route::get('/profile/password-change',[ProfileController::class,'changePassword'])->name('user.changePassword');
 Route::post('/profile/password-change',[ProfileController::class,'update_password'])->name('user.changePassword');
 
-
+Route::post("/user/register",[AuthenticationController::class,"register"])->name("user.register");
 Route::post("/user/login",[AuthenticationController::class,"authenticate"])->name("user.login");
 Route::post("/user/logout",[AuthenticationController::class,"logout"])->name("user.logout");
 
 
 //card handling url hare
 Route::get('/addtocard/{id}',[CartController::class,'addToCart'])->name('user.addCart');
+Route::get('/mycard',[CartController::class,'cart'])->name('user.mycart');
+Route::get('/mycardincrease/{id}',[CartController::class,'increment'])->name('user.increase');
+Route::get('/mycarddecrease/{id}',[CartController::class,'decrement'])->name('user.decrement');
+Route::get('/remove/{id}',[CartController::class,'removeCart'])->name('user.removeCart');
 
 Route::prefix('admin')->group(function(){
 
