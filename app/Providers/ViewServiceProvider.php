@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\Company;
 use App\Models\Wishlist;
 use Auth;
@@ -26,6 +27,7 @@ class ViewServiceProvider extends ServiceProvider
         //
 
          View::composer('*', function ($view) {
+
                 $data =  Company::all()->first();
                 if($data){
                     $view->with('company',$data);
@@ -33,6 +35,22 @@ class ViewServiceProvider extends ServiceProvider
                     $view->with('company',false);
 
                 }
+
+
+                $allCategories = Category::where('nav',true)->get();
+                if($allCategories){
+                    $view->with('categories',$allCategories);
+                }else{
+                    $view->with('categories',false);
+                }
+
+                $searchCat = Category::get();
+                if($searchCat){
+                    $view->with('searchCat',$searchCat);
+                }else{
+                    $view->with('searchCat',false);
+                }
+                
 
                 //wishlist
                 if(Auth::check()){

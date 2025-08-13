@@ -124,7 +124,19 @@ class CategoryController extends Controller
 
 
 
+    function ChangeFromNav(int $id){
 
+     
+        $cat = Category::findOrFail($id);
+        if($cat->nav){
+            $cat->nav = false;
+        }else{
+            $cat->nav = true;
+        }
+        $cat->save();
+        return redirect()->route('admin.category')->with('success','Successfully Changed Nav!');
+
+    }
 
 
 

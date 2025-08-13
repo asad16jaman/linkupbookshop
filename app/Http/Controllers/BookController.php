@@ -12,4 +12,7 @@ class BookController extends Controller
         $book = Book::with('category')->where('uuid','=',$id)->first();
         return  view('user.book',compact('book'));
     }
+
+
+    
 }

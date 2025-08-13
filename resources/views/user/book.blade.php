@@ -20,7 +20,7 @@
     width: 100%;
     max-height: 500px;
     object-fit: contain;
-    background: #b3b0b0f5;
+    background: gainsboro;
     }
     .iconstyle{
           width: 50px;
@@ -40,7 +40,7 @@
 @section('content')
 
   <!-- navbar start hare  -->
-  @include('user.layout.nav')
+  @include('user.layout.nav',['page'=>'book'])
   <!-- navbar end hare  -->
 
   <div class="container py-5">
@@ -53,7 +53,7 @@
       <p>{{ $book->author }}</p>
       <div>
       <h4>Book Detail</h4>
-      <table>
+      <table style="font-size: 14px;">
         <tbody>
         <tr>
           <td>Author </td>
@@ -112,39 +112,39 @@
 @push('script')
   <script>
 
-    function createCartLi(name,qty,price){
-      return `<li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                  <div>
-                  <h5 style="font-size: 16px;margin-bottom: 0px;">
-                    <a href="">${name}(${qty})</a>
-                  </h5>
-                  <small>ldsksd</small>
-                  </div>
-                  <span class="text-primary">${price}</span>
-                </li>`
-    }
+    // function createCartLi(name,qty,price){
+    //   return `<li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+    //               <div>
+    //               <h5 style="font-size: 16px;margin-bottom: 0px;">
+    //                 <a href="">${name}(${qty})</a>
+    //               </h5>
+    //               <small>ldsksd</small>
+    //               </div>
+    //               <span class="text-primary">${price}</span>
+    //             </li>`
+    // }
 
-    function addToCard(id){
-      let url = "{{ route('user.addCart', ['id' => ':id']) }}";
-      url = url.replace(':id', id);
+    // function addToCard(id){
+    //   let url = " route('user.addCart', ['id' => ':id']) }}";
+    //   url = url.replace(':id', id);
 
-      axios.get(url)
-      .then(res=>{
-        let response = res.data
-        if(response.status){
-            showToast("Successfully Added!", 'success');
-            let cartbooks = Object.values(response.content);
-            let allCart = cartbooks.map(ele=>{
-              return createCartLi(ele.name,ele.qty,ele.price)
-            })
-            document.getElementById('navCart').innerHTML = allCart;
-            document.getElementById('totalPrice').innerHTML = response.totalItem
-            document.getElementById('totalItem').innerHTML = response.totalItem
-            document.getElementById('totalItemCart').innerHTML = response.totalPrice
+    //   axios.get(url)
+    //   .then(res=>{
+    //     let response = res.data
+    //     if(response.status){
+    //         showToast("Successfully Added!", 'success');
+    //         let cartbooks = Object.values(response.content);
+    //         let allCart = cartbooks.map(ele=>{
+    //           return createCartLi(ele.name,ele.qty,ele.price)
+    //         })
+    //         document.getElementById('navCart').innerHTML = allCart;
+    //         document.getElementById('totalPrice').innerHTML = response.totalItem
+    //         document.getElementById('totalItem').innerHTML = response.totalItem
+    //         document.getElementById('totalItemCart').innerHTML = response.totalPrice
 
-          }
-      })
-    }
+    //       }
+    //   })
+    // }
 
   </script>
 

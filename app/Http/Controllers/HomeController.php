@@ -54,9 +54,29 @@ class HomeController extends Controller
         return view('user.bestselling',compact('bestsell'));
     }
 
+    public function getBookByCat(){
+
+        $catsearch = request()->query('category',null);
+        $searValue = request()->query('search',null);
+        if($catsearch){
+            $catValue = Category::where('name','like','%'.$catsearch.'%')->first();
+            $books = Book::where('category_id',optional($catValue)->id)->simplePaginate(12);
+            
+        }else{
+             $books = Book::where('name','like','%'.$searValue.'%')->latest()->simplePaginate(12);
+
+        }
+        // return response()->json($books);
+        return view('user.bookpage',compact(['books']));
+
+    }
+
     public function about(){
         $about = About::first();
         return view('user.about',compact(['about']));
     }
+
+
+    
 
 }

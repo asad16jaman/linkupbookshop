@@ -143,6 +143,7 @@
                                                         <th style="width: 136.031px;">SL NO:</th>
                                                         <th style="width: 214.469px;">Picture</th>
                                                         <th style="width: 214.469px;">Name</th>
+                                                        <th style="width: 214.469px;">Nav</th>
                                                         <th style="width: 81.375px;">Action</th>
                                                     </tr>
                                                 </thead>
@@ -158,6 +159,13 @@
                                                       
                                                         </td>
                                                         <td>{{ $category->name }}</td>
+                                                        <td>
+                                                            @if($category->nav)
+                                                                <a href="{{ route('admin.changeFromNav',['id'=>$category->id]) }}" class="btn btn-info p-1">Hide</a>
+                                                            @else
+                                                                <a href="{{ route('admin.changeFromNav',['id'=>$category->id]) }}" class="btn btn-info p-1">Show</a>
+                                                            @endif
+                                                        </td>
                                                         <td class="d-flex justify-content-center">
                                                             
                                                             <a href="{{  route('admin.category' ,['id'=>$category->id,'page'=>request()->query('page'),'search'=>request()->query('search')])  }}" class="btn btn-info p-1 me-1">

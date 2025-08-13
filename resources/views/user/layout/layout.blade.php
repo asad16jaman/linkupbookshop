@@ -94,6 +94,45 @@
       // Remove toast after it's hidden (cleanup DOM)
       toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
     }
+
+    //handling nav card
+    function createCartLi(name,qty,price){
+      return `<li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+                  <div>
+                  <h5 style="font-size: 16px;margin-bottom: 0px;">
+                    <a href="">${name}(${qty})</a>
+                  </h5>
+                  <small>ldsksd</small>
+                  </div>
+                  <span class="text-primary">${price}</span>
+                </li>`
+    }
+
+    function addToCard(id){
+
+      
+      let url = "{{ route('user.addCart', ['id' => ':id']) }}";
+      url = url.replace(':id', id);
+      axios.get(url)
+      .then(res=>{
+        let response = res.data
+        if(response.status){
+            showToast("Successfully Added!", 'success');
+            let cartbooks = Object.values(response.content);
+            let allCart = cartbooks.map(ele=>{
+              return createCartLi(ele.name,ele.qty,ele.price)
+            })
+            document.getElementById('navCart').innerHTML = allCart;
+            document.getElementById('totalPrice').innerHTML = response.totalPrice
+            document.getElementById('totalItem').innerHTML = response.totalItem
+            document.getElementById('totalItemCart').innerHTML = response.totalItem
+
+          }
+      })
+    }
+
+
+
   </script>
 
   @stack('script')

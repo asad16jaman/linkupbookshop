@@ -60,14 +60,14 @@
           </svg>
           </button>
           <form action="{{ route('storeInWishlist', ['id' => $bestsell->id]) }}" method="post">
-          @csrf
-          <button type="submit" class="btn btn-dark">
-            <span>
-            <svg class="wishlist">
-              <use xlink:href="#heart"></use>
-            </svg>
-            </span>
-          </button>
+            @csrf
+            <button type="submit" class="btn btn-dark">
+              <span>
+              <svg class="wishlist">
+                <use xlink:href="#heart"></use>
+              </svg>
+              </span>
+            </button>
           </form>
         </div>
         </div>

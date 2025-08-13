@@ -95,7 +95,7 @@ main {
                                             @csrf
                                             <input type="submit" value="Remove" class="btn text-center btn-sm" style="width:100%;padding: 1px 10px;">
                                             </form>
-                                        <a href="" class="btn mt-1" style="width:100%;padding: 1px 10px;">Add to Cart</a>
+                                        <a type="button" onclick="addToCard({{ $wish->book->id }})" class="btn mt-1" style="width:100%;padding: 1px 10px;">Add to Cart</a>
                                     </div>
                                 </div>  
                                 @endforeach

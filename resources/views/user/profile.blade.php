@@ -44,7 +44,7 @@ main {
 @section('content')
 
   <!-- navbar start hare  -->
-  @include('user.layout.nav')
+  @include('user.layout.nav',['page'=>'profile'])
   <!-- navbar end hare  -->
 
   <div class="container-fluid bg-breadcrumb">

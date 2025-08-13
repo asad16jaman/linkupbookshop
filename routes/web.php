@@ -25,29 +25,43 @@ use App\Http\Controllers\Admin\PhotoGalleryController;
 
 
 Route::get("/",[HomeController::class,"index"])->name("home");
-Route::get("/books",[HomeController::class,"allBook"])->name("allbooks");
-Route::get("/best-sell-book",[HomeController::class,"bestsell"])->name("bestSell");
+
+
 Route::get("/about",[HomeController::class,"about"])->name("about");
 
-//Wishlist Controller
-Route::post("/wish/{id}",[WishListController::class,"storeWishList"])->name("storeInWishlist");
-Route::post("/wish/{id}/delete",[WishListController::class,"updateWishList"])->name("updateWishList");
+
 
 //book
 Route::get('/book/{id}/detail',[BookController::class,'index'])->name('singlebook');
+Route::get("/books",[HomeController::class,"allBook"])->name("allbooks");
+Route::get("/best-sell-book",[HomeController::class,"bestsell"])->name("bestSell");
+Route::get("/category-book",[HomeController::class,"getBookByCat"])->name("book.catetory");
+
 
 Route::get('/contact',[UserContact::class,'index'])->name('user.contact');
+Route::post('/contact',[UserContact::class,'storeContact'])->name('user.contact');
 
+Route::middleware('auth')->group(function(){
 
-//Profile url
+    //Profile url
 Route::get('/profile',[ProfileController::class,'index'])->name('user.profile');
 Route::post('/profile',[ProfileController::class,'storeProfile'])->name('user.profile');
 Route::get('profile/your-wish',[ProfileController::class,'wishlist'])->name('user.wish');
 Route::get('/profile/password-change',[ProfileController::class,'changePassword'])->name('user.changePassword');
 Route::post('/profile/password-change',[ProfileController::class,'update_password'])->name('user.changePassword');
 
+//Wishlist Controller
+Route::post("/wish/{id}",[WishListController::class,"storeWishList"])->name("storeInWishlist");
+Route::post("/wish/{id}/delete",[WishListController::class,"updateWishList"])->name("updateWishList");
+
+});
+
+
 Route::post("/user/register",[AuthenticationController::class,"register"])->name("user.register");
-Route::post("/user/login",[AuthenticationController::class,"authenticate"])->name("user.login");
+Route::get("/user/login",function(){
+    return redirect()->route('home');
+})->name("login");
+Route::post("/user/login",[AuthenticationController::class,"authenticate"])->name("login");
 Route::post("/user/logout",[AuthenticationController::class,"logout"])->name("user.logout");
 
 
@@ -97,7 +111,7 @@ Route::group(['prefix'=> '/admin','middleware'=>'checkAdminAuth','as'=>'admin.']
     Route::get("/category/{id?}",[CategoryController::class,"index"])->name("category");
     Route::post("/category/{id?}",[CategoryController::class,"store"])->name("category");
     Route::post("/category/{id}/delete",[CategoryController::class,"destroy"])->name("category.delete");
-
+    Route::get("/category/{id}/nav",[CategoryController::class,"ChangeFromNav"])->name("changeFromNav");
 
     // Product url hare
     Route::get("/book/{id?}",[ProductController::class,"index"])->name("book");

@@ -47,7 +47,7 @@
 @section('content')
 
     <!-- navbar start hare  -->
-    @include('user.layout.nav')
+    @include('user.layout.nav',['page'=>'contact'])
     <!-- navbar end hare  -->
 
     <div class="container-fluid bg-breadcrumb">
@@ -73,7 +73,7 @@
             <div class="row gy-4">
               <div class="col-lg-12 shadow py-4">
                 <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
-                  <a href="{{ $company->facebook }}"><i class="bi bi-facebook"></i></a>
+                  <a href="{{ $company->facebook }}" target="_blank"><i class="bi bi-facebook"></i></a>
                   <h3>Facebook</h3>
                   
                 </div>

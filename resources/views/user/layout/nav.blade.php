@@ -1,8 +1,9 @@
 <div class="search-popup">
   <div class="search-popup-container">
 
-    <form role="search" method="get" class="search-form" action="">
-      <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value="" name="s" />
+    <form role="search" method="get" class="search-form" action="{{ route('book.catetory') }}">
+      <input type="search" id="search-form" class="search-field" placeholder="Type and press enter"
+        value="{{ request()->query('category') }}" name="category" />
       <button type="submit" class="search-submit"><svg class="search">
           <use xlink:href="#search"></use>
         </svg></button>
@@ -11,28 +12,15 @@
     <h5 class="cat-list-title">Browse Categories</h5>
 
     <ul class="cat-list">
-
+      @if(count($searchCat) > 0)
+      @foreach ($searchCat as $cat)
       <li class="cat-list-item">
-        <a href="#" title="Romance">Romance</a>
+      <a href="{{ route('book.catetory', ['category' => $cat->name]) }}" title="Romance">{{ $cat->name }}</a>
       </li>
-      <!-- <li class="cat-list-item">
-            <a href="#" title="Thriller">Thriller</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Sci-fi">Sci-fi</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Cooking">Cooking</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Health">Health</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Lifestyle">Lifestyle</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Fiction">Fiction</a>
-          </li> -->
+    @endforeach
+    @else
+      <p>No Category Found</p>
+    @endif
     </ul>
 
   </div>
@@ -78,47 +66,38 @@
           <ul id="navbar"
             class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1">
             <li class="nav-item">
-              <a class="nav-link me-4 active" href="{{ route('home') }}">Home</a>
+              <a class="nav-link me-4 {{ $page == 'home' ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link me-4" href="{{ route('about') }}">About</a>
+              <a class="nav-link me-4 {{ $page == 'about' ? 'active' : '' }}" href="{{ route('about') }}">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link me-4" href="{{ route('allbooks') }}">Books</a>
+              <a class="nav-link me-4 {{ $page == 'book' ? 'active' : '' }}" href="{{ route('allbooks') }}">Books</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link me-4" href="index.html">Blogs</a>
-            </li>
+            </li> -->
             <li class="nav-item dropdown">
               <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                aria-expanded="false">Pages</a>
+                aria-expanded="false">Categories</a>
               <ul class="dropdown-menu animate slide border">
-                <li>
-                  <a href="index.html" class="dropdown-item fw-light">About</a>
-                </li>
-                <li>
-                  <a href="index.html" class="dropdown-item fw-light">Shop</a>
-                </li>
-                <li>
-                  <a href="index.html" class="dropdown-item fw-light">Single Product</a>
-                </li>
-                <li>
-                  <a href="index.html" class="dropdown-item fw-light">Cart</a>
-                </li>
-                <li>
-                  <a href="index.html" class="dropdown-item fw-light">Checkout</a>
-                </li>
-                <li>
-                  <a href="index.html" class="dropdown-item fw-light">Blog</a>
-                </li>
-                <li>
-                  <a href="index.html" class="dropdown-item fw-light">Single Post</a>
-                </li>
-                
+                @if(count($categories) > 0)
+              @foreach ($categories as $category)
+            <li>
+            <a href="{{ route('book.catetory', ['category' => $category->name]) }}"
+            class="dropdown-item fw-light">{{ $category->name }}</a>
+            </li>
+          @endforeach
+        @else
+          <li>
+            <p style="font-size:13px;text-align:center;margin-bottom:0px;">No Category Found</p>
+          </li>
+        @endif
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link me-4" href="{{ route('user.contact') }}">Contact</a>
+              <a class="nav-link me-4 {{ $page == 'contact' ? 'active' : '' }}"
+                href="{{ route('user.contact') }}">Contact</a>
             </li>
           </ul>
           <div class="user-items d-flex">
@@ -131,7 +110,7 @@
                 </a>
               </li>
 
-        @if(!Auth::user())
+              @if(!Auth::user())
           <li class="pe-3">
           <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <svg class="user">
@@ -222,8 +201,7 @@
           </div>
           </li>
         @endif
-
-        @if(Auth::check())
+              @if(Auth::check())
             <li class="nav-item dropdown">
             <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
               aria-expanded="false">{{ Auth::user()->fullname ?? Auth::user()->username }}</a>
@@ -231,7 +209,6 @@
               <li>
               <a href="{{ route('user.profile') }}" class="dropdown-item fw-light">Profile</a>
               </li>
-
               <li>
               <form action="{{ route('user.logout') }}" method="post">
                 @csrf
@@ -239,11 +216,8 @@
               </form>
               <!-- <a href="index.html" class="">Logout</a> -->
               </li>
-
             </ul>
             </li>
-
-
             <li class="wishlist-dropdown dropdown pe-3">
             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
               <svg class="wishlist">
@@ -258,21 +232,21 @@
               <ul class="list-group mb-3">
               @forelse($wish['products'] as $wish)
           <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-            <div>
-            <h5 style="font-size:16px">
+            <div style="width:84%">
+            <h5>
             <a href="index.html">{{ $wish->book->name }}</a>
             </h5>
-            <small>{{ $wish->book->author }}<small>
+            <small>{{ $wish->book->author }}</small>
             <div class="d-flex justify-content-between">
-              <form action="{{ route('updateWishList', ['id' => $wish->id]) }}" method="post">
-              @csrf
-              <input type="submit" value="Remove" class="fw-medium text-capitalize mt-2"
+            <form action="{{ route('updateWishList', ['id' => $wish->id]) }}" method="post">
+            @csrf
+            <input type="submit" value="Remove" class="fw-medium text-capitalize mt-2"
               style="bckground:red">
-              </form>
-
-              <a href="#" class="d-block fw-medium text-capitalize mt-2">Add to cart</a>
+            </form>
+            <button style="font-size: 16px;border: 1px solid #484444;"
+            onclick="addToCard({{ $wish->book->id }})" style="font-size:16px"
+            class="d-block fw-medium text-capitalize mt-2">Add to cart</button>
             </div>
-
             </div>
             <span class="text-primary">${{ $wish->book->price }}</span>
           </li>
@@ -281,19 +255,12 @@
 
           <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
             <div>
-            <h5 style="font-size:16px">
-            <a type="p">No Product Found</a>
-            </h5>
+            No Product Found
+            </div>
 
           </li>
 
           @endforelse
-
-
-              <!-- <li class="list-group-item bg-transparent d-flex justify-content-between">
-          <span class="text-capitalize"><b>Total (USD)</b></span>
-          <strong>$1470</strong>
-          </li> -->
               </ul>
               @if($wish['count'] != '0')
           <div class="d-flex flex-wrap justify-content-center">
@@ -305,8 +272,7 @@
             </li>
         @endif
               <li class="cart-dropdown dropdown">
-                <a href="index.html" class="dropdown-toggle" data-bs-toggle="dropdown" role="button"
-                  aria-expanded="false">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
                   <svg class="cart">
                     <use xlink:href="#cart"></use>
                   </svg><span class="fs-6 fw-light" id="totalItem">({{ $cartDetail['totalItems'] }})</span>
@@ -360,13 +326,12 @@
     let formData = new FormData(form);
     let posturl = "{{ route('user.register') }}";
 
-    axios.post(posturl, formData,{
+    axios.post(posturl, formData, {
       headers: {
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       }
     })
       .then(function (response) {
-
       let res = response.data;
       if (!res.status) {
       if (res.error.username) {
@@ -384,11 +349,9 @@
       document.getElementById('password').classList.remove('is-invalid');
       document.getElementById('passwordError').innerHTML = '';
       }
-
       } else {
       window.location.href = "{{ route('home') }}"
       }
-
       })
       .catch(function (error) {
       if (error.response) {
@@ -399,13 +362,12 @@
       }
       });
     })
-
     document.getElementById('UserLoginForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     let form = e.target;
     let formData = new FormData(form);
-    let posturl = "{{ route('user.login') }}";
+    let posturl = "{{ route('login') }}";
 
     axios.post(posturl, formData, {
       headers: {

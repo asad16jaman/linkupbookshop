@@ -58,7 +58,7 @@
 @section('content')
 
     <!-- navbar start hare  -->
-    @include('user.layout.nav')
+    @include('user.layout.nav',['page'=>'cart'])
     <!-- navbar end hare  -->
 
     <div class="container-fluid bg-breadcrumb">
